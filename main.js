@@ -2,6 +2,17 @@ const textinput = document.getElementById('taskInput');
 const btn = document.getElementById('addTaskButton');
 const taskList = document.getElementById('taskList');
 
+// modal element
+const editmodal = document.getElementById('editModal');
+const editInput = document.getElementById('editInput');
+const closeModal = document.getElementById('closeModal');
+const saveEditButton = document.getElementById('saveEditButton');
+
+
+const mainContent = document.getElementById('main-content');
+
+let currentEditTask = null;
+
 
 // save tasks to local storage 
 function saveTasksToLocalStorage(tasks){
@@ -28,7 +39,10 @@ function addTaskToDOM(taskText){
         const editIcon = document.createElement('i');
         editIcon.className = 'fas fa-edit edit-icon';
         editIcon.addEventListener('click',()=>{
-            // edit function
+            currentEditTask = taskItem;
+            editInput.value = taskspan.textContent;
+            editmodal.style.display = 'block';
+            mainContent.classList.add('blur');
         });
 
         const deleteIcon = document.createElement('i');
@@ -66,5 +80,61 @@ btn.addEventListener('click',()=>{
         tasks.push(taskText);
         saveTasksToLocalStorage(tasks);
         textinput.value = "";
+    }
+});
+
+
+// Modal Close Button
+closeModal.addEventListener('click',()=>{
+    editmodal.classList.add('fade-out');
+    setTimeout(()=>{
+        editmodal.style.display = 'none';
+        editmodal.classList.remove('fade-out');
+        mainContent.classList.remove('blur');
+    },500);
+    
+});
+
+
+saveEditButton.addEventListener('click',()=>{
+    if(currentEditTask){
+        const tasks = getTasksFromLocalStorage();
+        const oldTaskText = currentEditTask.querySelector('span').textContent;
+        const newTaskText = editInput.value.trim();
+        if(newTaskText !== ""){
+            const taskIndex = tasks.indexOf(oldTaskText);
+            if(taskIndex > -1){
+                tasks[taskIndex] = newTaskText;
+                saveTasksToLocalStorage(tasks);
+            }
+            currentEditTask.querySelector('span').textContent = newTaskText;
+            editmodal.style.display = 'none';
+            mainContent.classList.remove('blur');
+        }
+    }
+});
+
+
+
+
+window.addEventListener('click', (event) => {
+    if (event.target == editmodal) {
+        editmodal.classList.add('fade-out');
+        setTimeout(() => {
+            editmodal.style.display = 'none';
+            editmodal.classList.remove('fade-out');
+            mainContent.classList.remove('blur'); 
+        }, 500);
+    }
+});
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+        editmodal.classList.add('fade-out');
+        setTimeout(() => {
+            editmodal.style.display = 'none';
+            editmodal.classList.remove('fade-out');
+            mainContent.classList.remove('blur'); 
+        }, 500);
     }
 });

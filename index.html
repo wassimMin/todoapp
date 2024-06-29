@@ -15,12 +15,12 @@
         <!-- <img src="logo.png" alt="logo"> -->
         <nav class="navigation">
             <ul class="list-li">
+                <img src="logo.png" alt="logo">
                 <li>To Do</li>
-                <li>History</li>
             </ul>
         </nav>
     </header>
-    <main class="main-content">
+    <main id="main-content" class="main-content">
         <div class="input-container">
             <input type="text" placeholder="Enter your task" id="taskInput">
             <button id="addTaskButton">Add</button>
@@ -35,9 +35,11 @@
     <div id="editModal" class="modal">
         <div class="modal-content">
             <span class="close-button" id="closeModal">&times;</span>
-            <h2>Edit Task</h2>
+            <div class="modal-content-extra">
+            <h2 class="h1-modal">Edit Task</h2>
             <input type="text"  id="editInput">
             <button id="saveEditButton">Save</button>
+        </div>
         </div>
     </div>
     <script src="main.js"></script>
