@@ -71,6 +71,18 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 
 
+document.addEventListener('keydown',(e)=>{
+    if(e.key === 'Enter'){
+        const taskText = textinput.value.trim();
+        if(taskText!== ""){
+            addTaskToDOM(taskText);
+            const tasks = getTasksFromLocalStorage();
+            tasks.push(taskText);
+            saveTasksToLocalStorage(tasks);
+            textinput.value = "";
+    }
+    }
+})
 
 btn.addEventListener('click',()=>{
     const taskText = textinput.value.trim();
